@@ -174,10 +174,11 @@ class HodView(TemplateView):
 @login_required()
 def accept_reject(request):
     username = request.session['username']
-    office = Office.objects.get(email=username)
     tab_selected = request.session['tab_selected']
     if tab_selected != 'office_tab':
         faculty = Faculty.objects.get(email=username)
+    if tab_selected != 'dept_tab':
+        office = Office.objects.get(email=username)
     req_id = request.POST.get('req_id')
     btn_appr = request.POST.get('appr_btn')
     rej_btn = request.POST.get('rej_btn')
@@ -222,6 +223,7 @@ def accept_reject(request):
                                                          'req_done': Requisitions.objects.exclude(facid=faculty.facid, proc_appr=1, hod_appr=0)})
 
     if rej_btn == '1' and tab_selected == 'office_tab':
+        print("hi")
         reqsns_table = Requisitions.objects.get(reqid=req_id)
         reqsns_table.office_appr = 2
         reqsns_table.save()
