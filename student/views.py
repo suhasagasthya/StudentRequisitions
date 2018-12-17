@@ -175,10 +175,10 @@ class HodView(TemplateView):
 def accept_reject(request):
     username = request.session['username']
     tab_selected = request.session['tab_selected']
-    if tab_selected != 'office_tab':
-        faculty = Faculty.objects.get(email=username)
-    if tab_selected != 'dept_tab':
+    if tab_selected == 'office_tab':
         office = Office.objects.get(email=username)
+    if tab_selected == 'dept_tab':
+        faculty = Faculty.objects.get(email=username)
     req_id = request.POST.get('req_id')
     btn_appr = request.POST.get('appr_btn')
     rej_btn = request.POST.get('rej_btn')
